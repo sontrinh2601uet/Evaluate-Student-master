@@ -12,4 +12,20 @@ public class Criteria extends DataEvaluate{
 
         listAction = new ArrayList<>();
     }
+
+    public String getStandardName() {
+        return standardName;
+    }
+
+    public void setStandardName(String standardName) {
+        this.standardName = standardName;
+    }
+
+    public ArrayList<Action> getListAction() {
+        return listAction;
+    }
+
+    public void setListAction(ArrayList<Action> listAction) {
+        this.listAction = listAction;
+    }
 }

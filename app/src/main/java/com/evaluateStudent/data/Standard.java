@@ -11,4 +11,16 @@ public class Standard extends DataEvaluate{
 
         listCriteria = new ArrayList<>();
     }
+
+    public ArrayList<Criteria> getListCriteria() {
+        return listCriteria;
+    }
+
+    public void setListCriteria(ArrayList<Criteria> listCriteria) {
+        this.listCriteria = listCriteria;
+
+        for (Criteria criterion : listCriteria) {
+            
+        }
+    }
 }

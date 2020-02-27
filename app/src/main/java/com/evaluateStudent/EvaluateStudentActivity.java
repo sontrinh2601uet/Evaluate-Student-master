@@ -21,10 +21,6 @@ public class EvaluateStudentActivity extends AppCompatActivity {
         FrameLayout frame = new FrameLayout(this);
         displayInfoStudent(getIntent());
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(CONTENT_VIEW_ID, new ShowListStandardFragment())
-                .commit();
     }
 
     private String getIdStudent() {
