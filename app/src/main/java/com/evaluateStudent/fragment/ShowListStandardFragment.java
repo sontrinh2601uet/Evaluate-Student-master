@@ -11,8 +11,8 @@ import com.evaluateStudent.R;
 
 public class ShowListStandardFragment extends Fragment {
 
-    public ShowListStandardFragment() {
-
+    public static ShowListStandardFragment createInstance() {
+        return new ShowListStandardFragment();
     }
 
     @Override

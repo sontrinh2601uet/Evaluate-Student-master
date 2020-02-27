@@ -18,9 +18,12 @@ public class EvaluateStudentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evaluate);
-        FrameLayout frame = new FrameLayout(this);
-        displayInfoStudent(getIntent());
 
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.frame_container, ShowListStandardFragment.createInstance()).commit();
+
+        displayInfoStudent(getIntent());
     }
 
     private String getIdStudent() {

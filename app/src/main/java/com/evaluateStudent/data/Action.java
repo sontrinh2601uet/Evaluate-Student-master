@@ -5,8 +5,8 @@ public class Action extends DataEvaluate{
     private String criteriaName;
     private int rateQuality;
 
-    public Action(String name, int iconId) {
-        super(name, iconId);
+    public Action(String name, int iconId, String content) {
+        super(name, iconId, content);
     }
 
     public String getCriteriaName() {

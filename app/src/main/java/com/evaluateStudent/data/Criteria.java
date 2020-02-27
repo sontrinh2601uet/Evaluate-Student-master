@@ -7,8 +7,8 @@ public class Criteria extends DataEvaluate{
     private String standardName;
     private ArrayList<Action> listAction;
 
-    public Criteria(String name, int iconId) {
-        super(name, iconId);
+    public Criteria(String name, int iconId, String content) {
+        super(name, iconId, content);
 
         listAction = new ArrayList<>();
     }
@@ -27,5 +27,9 @@ public class Criteria extends DataEvaluate{
 
     public void setListAction(ArrayList<Action> listAction) {
         this.listAction = listAction;
+
+        for (Action action : listAction) {
+            action.setCriteriaName(this.getName());
+        }
     }
 }
