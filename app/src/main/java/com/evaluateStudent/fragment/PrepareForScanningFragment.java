@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 
 import com.evaluateStudent.EvaluateStudentActivity;
 import com.evaluateStudent.R;
-import com.evaluateStudent.ScanQRcodeActivity;
 
 public class PrepareForScanningFragment extends Fragment implements View.OnClickListener {
 
@@ -46,6 +45,7 @@ public class PrepareForScanningFragment extends Fragment implements View.OnClick
                 removeAutoLogin();
                 getFragmentManager()
                         .beginTransaction()
+                        .setCustomAnimations(R.anim.right_enter, R.anim.right_out)
                         .replace(R.id.frameContainer, LoginFragment.createInstance())
                         .commit();
                 break;

@@ -20,23 +20,27 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.evaluateStudent.R;
+import com.evaluateStudent.data.ConnectToSQL;
+
+import java.sql.Connection;
 
 public class LoginFragment extends Fragment implements OnClickListener {
 
-    private View view;
     private static Animation shakeAnimation;
     private static FragmentManager fragmentManager;
+    private View view;
     private EditText emailId, password;
     private Button loginButton;
-    private TextView forgotPassword;
     private CheckBox show_hide_password;
     private LinearLayout loginLayout;
+    private ConnectToSQL SqlExecute;
+    private Connection connect;
 
     public static LoginFragment createInstance() {
         LoginFragment login = new LoginFragment();
@@ -47,6 +51,9 @@ public class LoginFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.login_layout, container, false);
+        // Create connect to SQL
+        SqlExecute = new ConnectToSQL();
+        connect = SqlExecute.CreateConnectToSQL();
         initViews();
         setListeners();
         return view;
@@ -59,7 +66,6 @@ public class LoginFragment extends Fragment implements OnClickListener {
         emailId = (EditText) view.findViewById(R.id.login_emailid);
         password = (EditText) view.findViewById(R.id.login_password);
         loginButton = (Button) view.findViewById(R.id.loginBtn);
-        forgotPassword = (TextView) view.findViewById(R.id.forgot_password);
         show_hide_password = (CheckBox) view
                 .findViewById(R.id.show_hide_password);
         loginLayout = (LinearLayout) view.findViewById(R.id.login_layout);
@@ -75,7 +81,6 @@ public class LoginFragment extends Fragment implements OnClickListener {
             ColorStateList csl = ColorStateList.createFromXml(getResources(),
                     xrp);
 
-            forgotPassword.setTextColor(csl);
             show_hide_password.setTextColor(csl);
         } catch (Exception e) {
         }
@@ -84,7 +89,6 @@ public class LoginFragment extends Fragment implements OnClickListener {
     // Set Listeners
     private void setListeners() {
         loginButton.setOnClickListener(this);
-        forgotPassword.setOnClickListener(this);
 
         // Set check listener over checkbox for showing and hiding password
         show_hide_password.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -118,14 +122,6 @@ public class LoginFragment extends Fragment implements OnClickListener {
                             .commit();
                 }
                 break;
-
-            case R.id.forgot_password:
-                fragmentManager
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
-                        .replace(R.id.frameContainer, new ForgotPassword_Fragment())
-                        .commit();
-                break;
         }
 
     }
@@ -137,11 +133,11 @@ public class LoginFragment extends Fragment implements OnClickListener {
         String getEmailId = emailId.getText().toString();
         String getPassword = password.getText().toString();
 
-        if(true) {
+        if (SqlExecute.getAuthenticationAccess(getEmailId, getPassword)) {
             saveLogin(getEmailId, getPassword);
             return true;
         } else {
-            // TODO: show login fail
+            Toast.makeText(getContext(), "login fail", Toast.LENGTH_LONG).show();
             return false;
         }
     }
@@ -162,5 +158,6 @@ public class LoginFragment extends Fragment implements OnClickListener {
 
         editor.commit();
     }
+
 
 }

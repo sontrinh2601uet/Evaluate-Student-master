@@ -2,14 +2,28 @@ package com.evaluateStudent.data;
 
 import java.util.ArrayList;
 
-public class Standard extends DataEvaluate{
+public class Standard extends DataEvaluate {
 
+    private int imageViewId;
     private ArrayList<Criteria> listCriteria;
 
-    public Standard(String name, int iconId, String content) {
-        super(name, iconId, content);
-
+    public Standard(int id, String content) {
+        super(id, content);
         listCriteria = new ArrayList<>();
+    }
+
+    public Standard(int id, String content, int imageId) {
+        super(id, content);
+        imageViewId = imageId;
+        listCriteria = new ArrayList<>();
+    }
+
+    public int getImageViewId() {
+        return imageViewId;
+    }
+
+    public void setImageViewId(int imageViewId) {
+        this.imageViewId = imageViewId;
     }
 
     public ArrayList<Criteria> getListCriteria() {
@@ -20,7 +34,7 @@ public class Standard extends DataEvaluate{
         this.listCriteria = listCriteria;
 
         for (Criteria criterion : listCriteria) {
-            criterion.setStandardName(this.getName());
+            criterion.setStandardId(this.getId());
         }
     }
 }

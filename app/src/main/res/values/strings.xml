@@ -13,6 +13,7 @@
     <string name="registered_email_id">Please enter your Registered Email Id below:</string>
     <string name="submit">SUBMIT</string>
     <string name="back">BACK</string>
+    <string name="save">SAVE</string>
     <string name="todo">TODO</string>
     <string name="scan_qr_code">Scan QR Code</string>
     <string name="log_out">Log Out</string>

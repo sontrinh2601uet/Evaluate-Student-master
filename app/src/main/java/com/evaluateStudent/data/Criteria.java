@@ -4,21 +4,20 @@ import java.util.ArrayList;
 
 public class Criteria extends DataEvaluate{
 
-    private String standardName;
+    private int standardId;
     private ArrayList<Action> listAction;
 
-    public Criteria(String name, int iconId, String content) {
-        super(name, iconId, content);
-
+    public Criteria(int id, String content) {
+        super(id, content);
         listAction = new ArrayList<>();
     }
 
-    public String getStandardName() {
-        return standardName;
+    public int getStandardId() {
+        return standardId;
     }
 
-    public void setStandardName(String standardName) {
-        this.standardName = standardName;
+    public void setStandardId(int standardId) {
+        this.standardId = standardId;
     }
 
     public ArrayList<Action> getListAction() {
@@ -29,7 +28,7 @@ public class Criteria extends DataEvaluate{
         this.listAction = listAction;
 
         for (Action action : listAction) {
-            action.setCriteriaName(this.getName());
+            action.setCriteriaId(this.getId());
         }
     }
 }
