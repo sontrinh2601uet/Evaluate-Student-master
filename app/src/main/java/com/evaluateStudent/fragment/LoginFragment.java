@@ -26,9 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.evaluateStudent.R;
-import com.evaluateStudent.data.ConnectToSQL;
-
-import java.sql.Connection;
+import com.evaluateStudent.structure.ConnectToData;
 
 public class LoginFragment extends Fragment implements OnClickListener {
 
@@ -39,8 +37,6 @@ public class LoginFragment extends Fragment implements OnClickListener {
     private Button loginButton;
     private CheckBox show_hide_password;
     private LinearLayout loginLayout;
-    private ConnectToSQL SqlExecute;
-    private Connection connect;
 
     public static LoginFragment createInstance() {
         LoginFragment login = new LoginFragment();
@@ -51,9 +47,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.login_layout, container, false);
-        // Create connect to SQL
-        SqlExecute = new ConnectToSQL();
-        connect = SqlExecute.CreateConnectToSQL();
+        // Create connect to Data
         initViews();
         setListeners();
         return view;
@@ -111,34 +105,34 @@ public class LoginFragment extends Fragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.loginBtn:
-                if (checkValidation()) {
-                    Fragment prepare = PrepareForScanningFragment.createInstance(emailId.getText().toString());
-                    fragmentManager
-                            .beginTransaction()
-                            .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
-                            .replace(R.id.frameContainer, prepare)
-                            .commit();
-                }
-                break;
+        if (v.getId() == R.id.loginBtn) {
+            int type = checkValidation();
+            if (type != -1) {
+                Fragment prepare = PrepareForScanningFragment.createInstance(type);
+                fragmentManager
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.right_enter, R.anim.left_out)
+                        .replace(R.id.frameContainer, prepare)
+                        .commit();
+            }
         }
 
     }
 
 
     // Check Validation before login
-    private boolean checkValidation() {
+    private int checkValidation() {
         // Get email id and password
         String getEmailId = emailId.getText().toString();
         String getPassword = password.getText().toString();
+        int typeUser = ConnectToData.getAuthenticationAccess(getContext(), getEmailId, getPassword);
 
-        if (SqlExecute.getAuthenticationAccess(getEmailId, getPassword)) {
-            saveLogin(getEmailId, getPassword);
-            return true;
+        if (typeUser != -1) {
+            saveLogin(getEmailId, getPassword, typeUser);
+            return typeUser;
         } else {
-            Toast.makeText(getContext(), "login fail", Toast.LENGTH_LONG).show();
-            return false;
+            Toast.makeText(getContext(), "Tài khoản hoặc mật khẩu không đúng!", Toast.LENGTH_LONG).show();
+            return -1;
         }
     }
 
@@ -149,12 +143,13 @@ public class LoginFragment extends Fragment implements OnClickListener {
         password.setText(pref.getString("pass", null));
     }
 
-    private void saveLogin(String email, String passWord) {
+    private void saveLogin(String email, String passWord, int typeUSer) {
         SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putString("email", email);
         editor.putString("pass", passWord);
+        editor.putInt("type", typeUSer);
 
         editor.commit();
     }

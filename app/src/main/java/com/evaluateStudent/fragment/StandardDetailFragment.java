@@ -8,13 +8,17 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.evaluateStudent.R;
+import com.evaluateStudent.structure.Standard;
 
 public class StandardDetailFragment extends Fragment {
 
-    public static StandardDetailFragment createInstance(Bundle bundle) {
-        StandardDetailFragment standardDetailFragment = new StandardDetailFragment();
-        standardDetailFragment.setArguments(bundle);
+    private static Standard standard;
 
+    public static StandardDetailFragment createInstance(Standard show) {
+        StandardDetailFragment standardDetailFragment = new StandardDetailFragment();
+        Bundle bundle = new Bundle();
+
+        standard = show;
         return standardDetailFragment;
     }
 

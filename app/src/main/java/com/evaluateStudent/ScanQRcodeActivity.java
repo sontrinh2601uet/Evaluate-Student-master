@@ -37,7 +37,7 @@ public class ScanQRcodeActivity extends AppCompatActivity implements ZXingScanne
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Toast.makeText(ScanQRcodeActivity.this, "Please accept this permission to scan QR code", Toast.LENGTH_LONG);
+                        Toast.makeText(ScanQRcodeActivity.this, "Vui lòng chấp thuạn quyền truy cập camera để quét mã QR", Toast.LENGTH_LONG);
                     }
 
                     @Override

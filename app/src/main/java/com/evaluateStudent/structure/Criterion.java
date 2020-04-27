@@ -1,14 +1,18 @@
-package com.evaluateStudent.data;
+package com.evaluateStudent.structure;
 
 import java.util.ArrayList;
 
-public class Criteria extends DataEvaluate{
+public class Criterion extends DataEvaluate{
 
     private int standardId;
     private ArrayList<Action> listAction;
 
-    public Criteria(int id, String content) {
-        super(id, content);
+    public Criterion() {
+        super();
+    }
+
+    public Criterion(int id, String content, int weight) {
+        super(id, content, weight);
         listAction = new ArrayList<>();
     }
 
@@ -26,9 +30,9 @@ public class Criteria extends DataEvaluate{
 
     public void setListAction(ArrayList<Action> listAction) {
         this.listAction = listAction;
+    }
 
-        for (Action action : listAction) {
-            action.setCriteriaId(this.getId());
-        }
+    public void setListAction(Action action) {
+        this.listAction.add(action);
     }
 }

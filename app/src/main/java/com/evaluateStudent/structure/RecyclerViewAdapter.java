@@ -1,4 +1,4 @@
-package com.evaluateStudent.data;
+package com.evaluateStudent.structure;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -22,10 +22,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private FragmentManager fragmentManager;
     private Context mContext ;
-    private List<Book> mData ;
+    private List<Standard> mData ;
 
 
-    public RecyclerViewAdapter(Context mContext, List<Book> mData, FragmentManager fragmentManager) {
+    public RecyclerViewAdapter(Context mContext, List<Standard> mData, FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
         this.mContext = mContext;
         this.mData = mData;
@@ -41,16 +41,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.tv_book_title.setText(mData.get(position).getTitle());
-        holder.img_book_thumbnail.setImageResource(mData.get(position).getThumbnail());
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+        holder.tv_standard_name.setText(mData.get(position).getContent());
+        holder.img_std_thumbnail.setImageResource(mData.get(position).getImageViewId());
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
+                Standard standard = mData.get(position);
+
                 fragmentManager
                         .beginTransaction()
-                        .replace(R.id.frame_container, StandardDetailFragment.createInstance(bundle), "detail")
+                        .addToBackStack("list")
+                        .replace(R.id.frame_container, StandardDetailFragment.createInstance(standard), "detail")
                         .commit();
             }
         });
@@ -63,15 +66,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_book_title;
-        ImageView img_book_thumbnail;
+        TextView tv_standard_name;
+        ImageView img_std_thumbnail;
         CardView cardView ;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            tv_book_title = (TextView) itemView.findViewById(R.id.book_title_id) ;
-            img_book_thumbnail = (ImageView) itemView.findViewById(R.id.book_img_id);
+            tv_standard_name = (TextView) itemView.findViewById(R.id.book_title_id) ;
+            img_std_thumbnail = (ImageView) itemView.findViewById(R.id.book_img_id);
             cardView = (CardView) itemView.findViewById(R.id.cardview_id);
         }
     }

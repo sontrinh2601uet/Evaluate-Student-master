@@ -12,14 +12,15 @@ import androidx.fragment.app.Fragment;
 
 import com.evaluateStudent.EvaluateStudentActivity;
 import com.evaluateStudent.R;
+import com.evaluateStudent.ScanQRcodeActivity;
 
 public class PrepareForScanningFragment extends Fragment implements View.OnClickListener {
 
 
-    public static PrepareForScanningFragment createInstance(String emailId) {
+    public static PrepareForScanningFragment createInstance(int typeUser) {
         PrepareForScanningFragment prepare = new PrepareForScanningFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("name", emailId);
+        bundle.putInt("type", typeUser);
         prepare.setArguments(bundle);
 
         return prepare;
@@ -34,7 +35,6 @@ public class PrepareForScanningFragment extends Fragment implements View.OnClick
         logOut.setOnClickListener(this);
         scan.setOnClickListener(this);
 
-        getDataFromUser();
         return view;
     }
 
@@ -60,12 +60,8 @@ public class PrepareForScanningFragment extends Fragment implements View.OnClick
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = pref.edit();
 
-        editor.remove("pass");
+        editor.remove("type");
 
         editor.commit();
-    }
-
-    private void getDataFromUser() {
-        // TODO: get list standard user can evaluate
     }
 }

@@ -1,5 +1,6 @@
 package com.evaluateStudent.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.evaluateStudent.R;
-import com.evaluateStudent.data.Book;
-import com.evaluateStudent.data.RecyclerViewAdapter;
+import com.evaluateStudent.structure.ConnectToData;
+import com.evaluateStudent.structure.RecyclerViewAdapter;
 
-import java.util.ArrayList;
+import static com.evaluateStudent.EvaluateStudentActivity.listStandard;
 
 public class ShowListStandardFragment extends Fragment {
 
@@ -25,16 +26,13 @@ public class ShowListStandardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_standard, null);
 
-        ArrayList<Book> lstBook = new ArrayList<>();
+        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", 0);
+        int typeUser = pref.getInt("type", -1);
 
-        lstBook.add(new Book("The Vegitarian", "Categorie Book", "Description book", R.drawable.qrcode));
-        lstBook.add(new Book("The Wild Robot", "Categorie Book", "Description book", R.drawable.qrcode));
-        lstBook.add(new Book("Maria Semples", "Categorie Book", "Description book", R.drawable.qrcode));
-        lstBook.add(new Book("The Martian", "Categorie Book", "Description book", R.drawable.qrcode));
-        lstBook.add(new Book("He Died with...", "Categorie Book", "Description book", R.drawable.qrcode));
+        listStandard = ConnectToData.getListStandard(typeUser);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_id);
-        RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(getContext(), lstBook, getActivity().getSupportFragmentManager());
+        RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(getContext(), listStandard, getActivity().getSupportFragmentManager());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerView.setAdapter(myAdapter);
 

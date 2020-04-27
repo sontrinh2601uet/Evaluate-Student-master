@@ -2,21 +2,28 @@
 <resources>
 
     <string name="app_name">Danh gia hoc sinh demo</string>
-    <string name="action_settings">Settings</string>
     <string name="email">Name</string>
     <string name="password">Password</string>
-    <string name="login">LOGIN</string>
-    <string name="show_pwd">Show Password</string>
-    <string name="hide_pwd">Hide Password</string>
-    <string name="forgot">Forgot password?</string>
-    <string name="lbl_scan_activity">Scan QR Code</string>
-    <string name="registered_email_id">Please enter your Registered Email Id below:</string>
-    <string name="submit">SUBMIT</string>
-    <string name="back">BACK</string>
-    <string name="save">SAVE</string>
-    <string name="todo">TODO</string>
-    <string name="scan_qr_code">Scan QR Code</string>
-    <string name="log_out">Log Out</string>
-    <string name="scan_the_qr_code_to_get_id_student">Scan the QR code to get ID student</string>
+    <string name="login">Đăng nhập</string>
+    <string name="show_pwd">Hiện mật khẩu</string>
+    <string name="hide_pwd">Ẩn mật khẩu</string>
+    <string name="back">Trở về</string>
+    <string name="save">Lưu</string>
+    <string name="scan_qr_code">Quét mã QR</string>
+    <string name="log_out">Đăng xuất</string>
+    <string name="scan_the_qr_code_to_get_id_student">Quét mã QR để lấy thông tin học sinh</string>
 
+    <string name="req_permission_list_permission">Ứng dụng cần truy cập Camera và Lưu trữ để hoạt động tốt và không gây lỗi.</string>
+    <string name="req_permission_deny_permission">Không, thoát ứng dụng</string>
+    <string name="req_permission_accept_permission">Đồng ý cấp quyền</string>
+    <string name="req_permission_setting">Bạn vừa từ chối quyền truy cập. Vui lòng vào mục cài đặt để chỉnh sửa quyền truy cập</string>
+    <string name="req_permission_setting_go_to">Tới cài đặt</string>
+
+    <string name="cannot_found_student_info">Không có dữ liệu với id học sinh \"%1$s\"\nVui lòng quét lại với dữ liệu đúng</string>
+    <string name="cannot_found_student_info_rescan">Quét lại</string>
+
+    <string name="return_and_save_evaluate_title">Quay lại trang quét mã</string>
+    <string name="return_and_save_evaluate">Đánh giá của bạn chưa được lưu lại.\nBạn có muốn lưu lại đánh giá?</string>
+    <string name="return_and_save_evaluate_yes">Có</string>
+    <string name="return_and_save_evaluate_no">Hủy đánh giá</string>
 </resources>

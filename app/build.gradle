@@ -25,7 +25,4 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    // connect to SQL
-    implementation files('libs/mysql-connector-java-5.1.23-bin.jar')
-    implementation files('libs/ksoap2-android-assembly-2.5.8-jar-with-dependencies.jar')
 }
