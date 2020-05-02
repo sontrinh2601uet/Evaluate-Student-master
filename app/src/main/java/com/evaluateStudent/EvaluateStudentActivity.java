@@ -56,10 +56,6 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
         } else {
             backToScan();
         }
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_container, ShowListStandardFragment.createInstance(), "list").commit();
     }
 
     private boolean showInfo(JSONObject studentData) {
@@ -85,7 +81,7 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
                 getIntent().getStringExtra("studentId"));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
+        builder.setCancelable(false);
         builder.setMessage(mess);
         builder.setPositiveButton(R.string.cannot_found_student_info_rescan,
                 new DialogInterface.OnClickListener() {

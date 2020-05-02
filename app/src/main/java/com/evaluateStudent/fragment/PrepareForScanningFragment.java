@@ -50,7 +50,7 @@ public class PrepareForScanningFragment extends Fragment implements View.OnClick
                         .commit();
                 break;
             case R.id.btn_scan:
-                startActivity(new Intent(getActivity(), EvaluateStudentActivity.class));
+                startActivity(new Intent(getActivity(), ScanQRcodeActivity.class));
                 break;
         }
 
