@@ -7,7 +7,10 @@
     <color name="black">#000000</color>
     <color name="blue">#c1d8c8</color>
     <color name="green">#e6ffe6</color>
-    <color name="white_greyish">#EEEEEE</color>
+    <color name="white_greyish">#eeeeee</color>
     <color name="button_selectorcolor">#9E9E9E</color>
     <color name="bg_list_standard">#42a4f5</color>
+    <color name="bg_criterion">#bf4080</color>
+    <color name="duskYellow">#ffdf00</color>
+    <color name="lightGrey">#d3d3d3</color>
 </resources>

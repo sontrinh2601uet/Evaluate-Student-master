@@ -1,11 +1,14 @@
 package com.evaluateStudent.structure;
 
+import android.widget.LinearLayout;
+
 import java.util.ArrayList;
 
-public class Criterion extends DataEvaluate{
+public class Criterion extends DataEvaluate {
 
-    private int standardId;
     private ArrayList<Action> listAction;
+
+    private LinearLayout listActionView;
 
     public Criterion() {
         super();
@@ -14,14 +17,6 @@ public class Criterion extends DataEvaluate{
     public Criterion(int id, String content, int weight) {
         super(id, content, weight);
         listAction = new ArrayList<>();
-    }
-
-    public int getStandardId() {
-        return standardId;
-    }
-
-    public void setStandardId(int standardId) {
-        this.standardId = standardId;
     }
 
     public ArrayList<Action> getListAction() {
@@ -34,5 +29,13 @@ public class Criterion extends DataEvaluate{
 
     public void setListAction(Action action) {
         this.listAction.add(action);
+    }
+
+    public LinearLayout getListActionView() {
+        return listActionView;
+    }
+
+    public void setListActionView(LinearLayout listActionView) {
+        this.listActionView = listActionView;
     }
 }

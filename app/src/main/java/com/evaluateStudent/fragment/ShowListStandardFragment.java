@@ -14,7 +14,7 @@ import com.evaluateStudent.R;
 import com.evaluateStudent.structure.ConnectToData;
 import com.evaluateStudent.structure.RecyclerViewAdapter;
 
-import static com.evaluateStudent.EvaluateStudentActivity.listStandard;
+import static com.evaluateStudent.structure.ConnectToData.listStandard;
 
 public class ShowListStandardFragment extends Fragment {
 
@@ -29,10 +29,10 @@ public class ShowListStandardFragment extends Fragment {
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", 0);
         int typeUser = pref.getInt("type", -1);
 
-        listStandard = ConnectToData.getListStandard(typeUser);
+        ConnectToData.getListStandard(typeUser);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_id);
-        RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(getContext(), listStandard, getActivity().getSupportFragmentManager());
+        RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(getActivity(), listStandard, getActivity().getSupportFragmentManager());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerView.setAdapter(myAdapter);
 

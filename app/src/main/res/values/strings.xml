@@ -22,8 +22,15 @@
     <string name="cannot_found_student_info">Không có dữ liệu với id học sinh \"%1$s\"\nVui lòng quét lại với dữ liệu đúng</string>
     <string name="cannot_found_student_info_rescan">Quét lại</string>
 
-    <string name="return_and_save_evaluate_title">Quay lại trang quét mã</string>
+    <string name="return_and_save_evaluate_title">Quay lại cửa sổ quét mã</string>
     <string name="return_and_save_evaluate">Đánh giá của bạn chưa được lưu lại.\nBạn có muốn lưu lại đánh giá?</string>
     <string name="return_and_save_evaluate_yes">Có</string>
     <string name="return_and_save_evaluate_no">Hủy đánh giá</string>
+    <string name="return_and_save_evaluate_cancel">Quay lại đánh giá</string>
+
+    <string name="rating_type_1">Yếu</string>
+    <string name="rating_type_2">Kém</string>
+    <string name="rating_type_3">Trung bình</string>
+    <string name="rating_type_4">Khá</string>
+    <string name="rating_type_5">Tốt</string>
 </resources>

@@ -1,21 +1,19 @@
 package com.evaluateStudent;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.evaluateStudent.fragment.ShowListStandardFragment;
-import com.evaluateStudent.structure.Action;
 import com.evaluateStudent.structure.ConnectToData;
-import com.evaluateStudent.structure.Criterion;
 import com.evaluateStudent.structure.Standard;
 
 import org.json.JSONException;
@@ -24,38 +22,32 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class EvaluateStudentActivity extends AppCompatActivity {
+public class EvaluateStudentActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static ArrayList<Standard> listStandard;
+    private String studentId;
 
+    LinearLayout saveView, backView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evaluate);
 
-        clearEvaluate();
+        ConnectToData.clearEvaluate();
         displayInfoStudent(getIntent());
 
-    }
+        saveView = findViewById(R.id.save_layout);
+        backView = findViewById(R.id.back_layout);
+        saveView.setOnClickListener(this);
+        backView.setOnClickListener(this);
 
-    private void clearEvaluate() {
-        if(listStandard != null) {
-            for (Standard standard : listStandard) {
-                for (Criterion criterion : standard.getListCriteria()) {
-                    for (Action action : criterion.getListAction()) {
-                        action.resetCriteriaId();
-                    }
-                }
-            }
-        }
     }
 
     private void displayInfoStudent(Intent intent) {
         String studentId = intent.getStringExtra("studentId");
         JSONObject studentData = ConnectToData.getStudentInfo(studentId, this);
 
-        if(studentData == null) {
+        if (studentData == null) {
             backToScan();
         } else if (showInfo(studentData)) {
             getSupportFragmentManager()
@@ -65,10 +57,9 @@ public class EvaluateStudentActivity extends AppCompatActivity {
             backToScan();
         }
 
-        // remove
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.frame_container, ShowListStandardFragment.createInstance(), "list").commit();
+                .replace(R.id.frame_container, ShowListStandardFragment.createInstance(), "list").commit();
     }
 
     private boolean showInfo(JSONObject studentData) {
@@ -78,6 +69,7 @@ public class EvaluateStudentActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.dob_student)).setText(studentData.getString("bod"));
             ((TextView) findViewById(R.id.class_student)).setText(studentData.getString("class"));
 
+            studentId = studentData.getString("studentId");
             String dob = (studentData.getString("gender").equals("1")) ? "Nam" : "Nữ";
             ((TextView) findViewById(R.id.gender_student)).setText(dob);
         } catch (JSONException e) {
@@ -109,9 +101,8 @@ public class EvaluateStudentActivity extends AppCompatActivity {
 
     }
 
-    private boolean commitBackToScan() {
-        final boolean[] commit = new boolean[1];
-
+    private void commitBackToScan() {
+        final Activity activity = this;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         builder.setTitle(R.string.return_and_save_evaluate_title);
@@ -120,8 +111,9 @@ public class EvaluateStudentActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        ConnectToData.saveEvaluate(studentId, activity);
+                        backToScanActivity();
                         dialogInterface.dismiss();
-                        commit[0] = true;
                     }
                 });
         builder.setNegativeButton(R.string.return_and_save_evaluate_no,
@@ -129,20 +121,19 @@ public class EvaluateStudentActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        commit[0] = false;
+                        backToScanActivity();
+                    }
+                });
+        builder.setNeutralButton(R.string.return_and_save_evaluate_cancel,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
                     }
                 });
 
         AlertDialog alert = builder.create();
         alert.show();
-
-        return commit[0];
-    }
-
-    private void saveEvaluate() {
-        if(commitBackToScan()) {
-            ConnectToData.saveEvaluate(listStandard);
-        }
     }
 
     private void backToScanActivity() {
@@ -150,11 +141,40 @@ public class EvaluateStudentActivity extends AppCompatActivity {
         finish();
     }
 
+    public void changeStatus() {
+        backView.setVisibility(View.VISIBLE);
+        saveView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (saveView.getVisibility() == View.VISIBLE) {
+            commitBackToScan();
+        }
+        if (backView.getVisibility() == View.VISIBLE) {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
+
     @Override
     protected void onDestroy() {
-        saveEvaluate();
+        ConnectToData.saveEvaluate(studentId, this);
         super.onDestroy();
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getTag().toString()) {
+            case "save":
+                ConnectToData.saveEvaluate(studentId, this);
+                Toast.makeText(this, "Đã lưu đánh giá!", Toast.LENGTH_SHORT).show();
+                break;
+            case "back":
+                backView.setVisibility(View.INVISIBLE);
+                saveView.setVisibility(View.VISIBLE);
+                getSupportFragmentManager().popBackStack();
+                break;
+        }
+    }
 }

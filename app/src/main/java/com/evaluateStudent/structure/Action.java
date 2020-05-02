@@ -1,25 +1,19 @@
 package com.evaluateStudent.structure;
 
+import android.widget.LinearLayout;
+
+import com.evaluateStudent.R;
+
 public class Action extends DataEvaluate {
 
-    private int criteriaId;
     private int rateQuality = 0;
 
     public Action() {
         super();
-
     }
 
     public Action(int iconId, String content, int weight) {
         super(iconId, content, weight);
-    }
-
-    public int getCriteriaId() {
-        return criteriaId;
-    }
-
-    public void setCriteriaId(int criteriaId) {
-        this.criteriaId = criteriaId;
     }
 
     public int getRateQuality() {
@@ -30,7 +24,7 @@ public class Action extends DataEvaluate {
         this.rateQuality = rateQuality;
     }
 
-    public void resetCriteriaId() {
-        this.criteriaId = 0;
+    public void resetRateQuality() {
+        this.rateQuality = 0;
     }
 }

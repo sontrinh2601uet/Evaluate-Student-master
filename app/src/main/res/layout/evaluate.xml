@@ -20,18 +20,18 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:layout_marginLeft="10dp"
             android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="3"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:textSize="20sp"
                 android:gravity="center"
-                android:text="Thông tin học sinh" />
+                android:text="Thông tin học sinh"
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:id="@+id/info_student_id_layout"
@@ -77,8 +77,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
                     android:gravity="start"
-                    android:text="Không có dữ liệu"
                     android:maxLines="2"
+                    android:text="Không có dữ liệu"
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -156,61 +156,84 @@
         </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#007acc">
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <RelativeLayout
-            android:id="@+id/back_layout"
-            android:layout_width="wrap_content"
+        <LinearLayout
+
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp">
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary">
 
-            <ImageView
-                android:id="@+id/icon_back"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginEnd="5dp"
+            <LinearLayout
+                android:id="@+id/back_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:clickable="true"
-                android:focusable="true"/>
+                android:focusable="true"
+                android:gravity="center_horizontal|center_vertical"
+                android:tag="back"
+                android:visibility="invisible">
 
-            <TextView
-                android:id="@+id/back_to_list_standard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/icon_back"
-                android:padding="4dp"
-                android:text="@string/back"
-                android:textColor="@color/white"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/back_icon" />
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/back"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-        <ImageView
-            android:id="@+id/icon_save"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="5dp"
-            android:src="@drawable/save_all"
-            android:clickable="true"
-            android:focusable="true"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/backToLoginBtn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/icon_save"
-            android:padding="4dp"
-            android:text="@string/save"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary">
 
-    </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/save_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_horizontal|center_vertical"
+                android:tag="save">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="5dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/save_all" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/frame_container"

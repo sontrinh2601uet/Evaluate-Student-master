@@ -144,7 +144,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
     }
 
     private void saveLogin(String email, String passWord, int typeUSer) {
-        SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("MyPref", 0);
+        SharedPreferences pref = getActivity().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = pref.edit();
 
         editor.putString("email", email);

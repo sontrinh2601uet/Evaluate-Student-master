@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.evaluateStudent.EvaluateStudentActivity;
 import com.evaluateStudent.R;
 import com.evaluateStudent.fragment.StandardDetailFragment;
 
@@ -49,11 +50,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 Standard standard = mData.get(position);
-
+                ((EvaluateStudentActivity) mContext).changeStatus();
                 fragmentManager
                         .beginTransaction()
+                        .replace(R.id.frame_container, StandardDetailFragment.createInstance(ConnectToData.listStandard.indexOf(standard)), "detail")
                         .addToBackStack("list")
-                        .replace(R.id.frame_container, StandardDetailFragment.createInstance(standard), "detail")
                         .commit();
             }
         });

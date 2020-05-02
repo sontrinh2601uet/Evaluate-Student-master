@@ -1,6 +1,8 @@
 package com.evaluateStudent.structure;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.evaluateStudent.R;
@@ -13,13 +15,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
 
 
 public class ConnectToData {
 
     private static File STORAGE_DATA;
+    public static ArrayList<Standard> listStandard;
 
     public static void createData(Context context) {
         String defaultData;
@@ -92,9 +98,8 @@ public class ConnectToData {
         }
     }
 
-    public static ArrayList<Standard> getListStandard(int type) {
-
-        ArrayList<Standard> listStd = new ArrayList<>();
+    public static void getListStandard(int type) {
+        listStandard = new ArrayList<>();
         JSONObject data;
 
         try {
@@ -109,20 +114,18 @@ public class ConnectToData {
                 standard.setContent(standardObj.getString("name"));
                 standard.setWeight(standardObj.getInt("weight"));
                 standard.setType(standardObj.getInt("type"));
-                standard.setListCriteria(getListCriterias(standardObj.getJSONObject("listCriterion")));
+                standard.setListCriteria(getListCriteria(standardObj.getJSONObject("listCriterion")));
 
-                if(standard.getType() <= type) {
-                    listStd.add(standard);
+                if (standard.getType() <= type) {
+                    listStandard.add(standard);
                 }
             }
         } catch (JSONException e) {
         }
-
-        return listStd;
     }
 
-    private static ArrayList<Criterion> getListCriterias(JSONObject data) throws JSONException {
-        ArrayList<Criterion> listCriterias = new ArrayList<>();
+    private static ArrayList<Criterion> getListCriteria(JSONObject data) throws JSONException {
+        ArrayList<Criterion> listCriteria = new ArrayList<>();
         JSONArray access = data.names();
 
         for (int i = 0; i < access.length(); i++) {
@@ -134,11 +137,11 @@ public class ConnectToData {
             criteria.setWeight(criteriaObj.getInt("weight"));
             criteria.setListAction(getListActions(criteriaObj.getJSONObject("listAction")));
 
-            listCriterias.add(criteria);
+            listCriteria.add(criteria);
             System.out.println(criteria.toString());
         }
 
-        return listCriterias;
+        return listCriteria;
     }
 
     private static ArrayList<Action> getListActions(JSONObject data) throws JSONException {
@@ -160,9 +163,66 @@ public class ConnectToData {
         return listActions;
     }
 
-    public static void saveEvaluate(ArrayList<Standard> listStandard) {
+    public static boolean saveEvaluate(String studentId, Activity activity) {
+        SharedPreferences pref = activity.getSharedPreferences("MyPref", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+        String currentTime = sdf.format(new Date());
+        File saveEvaluate = createEvaluateFolder(currentTime);
 
+        int indexId = pref.getInt("indexId", 0);
+        try {
+            FileOutputStream fos = new FileOutputStream(saveEvaluate);
+
+            fos.write(("user: " + pref.getString("email", "") + "\n").getBytes());
+            fos.write(("type_of_user: " + pref.getInt("type", -1) + "\n").getBytes());
+            fos.write(("student_id_in_evaluate: " + studentId + "\n").getBytes());
+            fos.write(("time: " + currentTime + "\n").getBytes());
+
+            for (Standard standard : listStandard) {
+                for (Criterion criterion : standard.getListCriteria()) {
+                    for (Action action : criterion.getListAction()) {
+                        if(action.getRateQuality() != 0) {
+                            String line = "id:" + indexId + ", actionId:" + action.getId() + ",rating:" + action.getRateQuality() + "\n";
+                            fos.write(line.getBytes());
+                        }
+                        indexId++;
+                    }
+                }
+            }
+
+            editor.putInt("indexId", indexId);
+
+            editor.commit();
+            fos.close();
+        } catch (IOException e) {
+            return false;
+        }
+
+        return true;
     }
+
+    private static File createEvaluateFolder(String date) {
+        File dir = new File(STORAGE_DATA, "evaluate");
+        if (!dir.isDirectory()) {
+            dir.mkdir();
+        }
+
+        return new File(dir, date + ".txt");
+    }
+
+    public static void clearEvaluate() {
+        if (listStandard != null) {
+            for (Standard standard : listStandard) {
+                for (Criterion criterion : standard.getListCriteria()) {
+                    for (Action action : criterion.getListAction()) {
+                        action.resetRateQuality();
+                    }
+                }
+            }
+        }
+    }
+
 
     private static void writeDataIntoFile(String path, String defaultData) {
         try {

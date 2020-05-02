@@ -49,4 +49,8 @@ public class Standard extends DataEvaluate {
     public void addCriteria(Criterion criteria) {
         this.listCriteria.add(criteria);
     }
+
+    public boolean compare(Standard otherStandard) {
+        return this.getId() == otherStandard.getId();
+    }
 }
