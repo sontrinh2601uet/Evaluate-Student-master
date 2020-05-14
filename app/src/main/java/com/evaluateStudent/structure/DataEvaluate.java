@@ -1,10 +1,11 @@
 package com.evaluateStudent.structure;
 
-public class DataEvaluate {
+public abstract class DataEvaluate {
 
     private int id;
     private String content;
     private int weight;
+    protected double point;
 
     public DataEvaluate() {
 
@@ -39,4 +40,10 @@ public class DataEvaluate {
     public String getContent() {
         return content;
     }
+
+    public double getPoint() {
+        return point;
+    }
+
+    protected abstract void setPoint();
 }

@@ -1,9 +1,5 @@
 package com.evaluateStudent.structure;
 
-import android.widget.LinearLayout;
-
-import com.evaluateStudent.R;
-
 public class Action extends DataEvaluate {
 
     private int rateQuality = 0;
@@ -12,8 +8,8 @@ public class Action extends DataEvaluate {
         super();
     }
 
-    public Action(int iconId, String content, int weight) {
-        super(iconId, content, weight);
+    public Action(int id, String content, int weight) {
+        super(id, content, weight);
     }
 
     public int getRateQuality() {
@@ -27,4 +23,7 @@ public class Action extends DataEvaluate {
     public void resetRateQuality() {
         this.rateQuality = 0;
     }
+
+    @Override
+    protected void setPoint() {}
 }

@@ -44,13 +44,25 @@ public class Standard extends DataEvaluate {
 
     public void setListCriteria(ArrayList<Criterion> listCriteria) {
         this.listCriteria = listCriteria;
+        setPoint();
     }
 
     public void addCriteria(Criterion criteria) {
         this.listCriteria.add(criteria);
+        setPoint();
     }
 
     public boolean compare(Standard otherStandard) {
         return this.getId() == otherStandard.getId();
+    }
+
+    protected void setPoint() {
+        int sum = 0, count = 0;
+        for (Criterion criterion : listCriteria) {
+            sum += criterion.getPoint();
+            count += (criterion.getPoint() == 0) ? 0 : 1;
+        }
+
+        this.point = (double) sum / (double) count;
     }
 }

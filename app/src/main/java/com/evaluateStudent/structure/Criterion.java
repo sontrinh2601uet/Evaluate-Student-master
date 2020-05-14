@@ -38,4 +38,14 @@ public class Criterion extends DataEvaluate {
     public void setListActionView(LinearLayout listActionView) {
         this.listActionView = listActionView;
     }
+
+    protected void setPoint() {
+        int sum = 0, count = 0;
+        for (Action action : listAction) {
+            sum += action.getPoint();
+            count += (action.getPoint() == 0) ? 0 : 1;
+        }
+
+        this.point = (double) sum / (double) count;
+    }
 }
