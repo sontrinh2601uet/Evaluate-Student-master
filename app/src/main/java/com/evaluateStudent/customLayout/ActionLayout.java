@@ -16,7 +16,6 @@ import java.util.ArrayList;
 public class ActionLayout extends LinearLayout implements RatingBar.OnRatingBarChangeListener {
 
     private LinearLayout actionView;
-    private TextView typeRate;
     private RatingBar rate;
 
     private Action action;
@@ -39,7 +38,6 @@ public class ActionLayout extends LinearLayout implements RatingBar.OnRatingBarC
 
     private void init(LinearLayout actionView) {
         rate = actionView.findViewById(R.id.rating_bar);
-        typeRate = actionView.findViewById(R.id.type_rate);
 
         rate.setOnRatingBarChangeListener(this);
         ((TextView) actionView.findViewById(R.id.action_content)).setText(action.getContent());
@@ -49,24 +47,6 @@ public class ActionLayout extends LinearLayout implements RatingBar.OnRatingBarC
 
     @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-        switch ((int) rating) {
-            case 1:
-                typeRate.setText(R.string.rating_type_1);
-                break;
-            case 2:
-                typeRate.setText(R.string.rating_type_2);
-                break;
-            case 3:
-                typeRate.setText(R.string.rating_type_3);
-                break;
-            case 4:
-                typeRate.setText(R.string.rating_type_4);
-                break;
-            case 5:
-                typeRate.setText(R.string.rating_type_5);
-                break;
-        }
-
         action.setRateQuality((int) rating);
     }
 }

@@ -1,46 +1,41 @@
 package com.evaluateStudent;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.evaluateStudent.fragment.ShowListStandardFragment;
 import com.evaluateStudent.structure.ConnectToData;
-import com.evaluateStudent.structure.Standard;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 
 public class EvaluateStudentActivity extends AppCompatActivity implements View.OnClickListener {
 
+    Button saveButton, backButton, historyButton;
     private String studentId;
-
-    LinearLayout saveView, backView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evaluate);
 
-        ConnectToData.clearEvaluate();
         displayInfoStudent(getIntent());
 
-        saveView = findViewById(R.id.save_layout);
-        backView = findViewById(R.id.back_layout);
-        saveView.setOnClickListener(this);
-        backView.setOnClickListener(this);
+        saveButton = findViewById(R.id.save);
+        backButton = findViewById(R.id.back);
+        historyButton = findViewById(R.id.history);
 
+        saveButton.setOnClickListener(this);
+        backButton.setOnClickListener(this);
+        historyButton.setOnClickListener(this);
     }
 
     private void displayInfoStudent(Intent intent) {
@@ -56,6 +51,10 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
         } else {
             backToScan();
         }
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_container, ShowListStandardFragment.createInstance(), "list").commit();
     }
 
     private boolean showInfo(JSONObject studentData) {
@@ -93,12 +92,11 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
                 });
 
         AlertDialog alert = builder.create();
-        alert.show();
+        //alert.show();
 
     }
 
     private void commitBackToScan() {
-        final Activity activity = this;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         builder.setTitle(R.string.return_and_save_evaluate_title);
@@ -107,8 +105,7 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ConnectToData.saveEvaluate(studentId, activity);
-                        backToScanActivity();
+                        saveEvaluate();
                         dialogInterface.dismiss();
                     }
                 });
@@ -138,39 +135,56 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
     }
 
     public void changeStatus() {
-        backView.setVisibility(View.VISIBLE);
-        saveView.setVisibility(View.INVISIBLE);
+        backButton.setEnabled(true);
     }
 
     @Override
     public void onBackPressed() {
-        if (saveView.getVisibility() == View.VISIBLE) {
+        if (backButton.getVisibility() == View.VISIBLE) {
+            getSupportFragmentManager().popBackStack();
+        } else {
             commitBackToScan();
         }
-        if (backView.getVisibility() == View.VISIBLE) {
-            getSupportFragmentManager().popBackStack();
-        }
     }
-
-    @Override
-    protected void onDestroy() {
-        ConnectToData.saveEvaluate(studentId, this);
-        super.onDestroy();
-    }
-
 
     @Override
     public void onClick(View v) {
-        switch (v.getTag().toString()) {
-            case "save":
-                ConnectToData.saveEvaluate(studentId, this);
-                Toast.makeText(this, "Đã lưu đánh giá!", Toast.LENGTH_SHORT).show();
+        switch (v.getId()) {
+            case R.id.save:
+                saveEvaluate();
                 break;
-            case "back":
-                backView.setVisibility(View.INVISIBLE);
-                saveView.setVisibility(View.VISIBLE);
+            case R.id.back:
+                backButton.setEnabled(false);
                 getSupportFragmentManager().popBackStack();
                 break;
+            case R.id.history:
+                break;
         }
+    }
+
+    private void saveEvaluate() {
+        ConnectToData.saveEvaluate(studentId, this.getSharedPreferences("MyPref", 0));
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setTitle(R.string.after_save_evaluate_title);
+        builder.setMessage(R.string.after_save_evaluate_mess);
+        builder.setPositiveButton(R.string.after_save_evaluate_continue,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        backButton.callOnClick();
+                        dialogInterface.dismiss();
+                    }
+                });
+        builder.setNegativeButton(R.string.after_save_evaluate_back,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        backToScanActivity();
+                    }
+                });
+        //builder.show();
     }
 }

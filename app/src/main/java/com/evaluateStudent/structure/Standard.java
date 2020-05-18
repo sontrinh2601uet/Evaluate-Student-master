@@ -52,17 +52,15 @@ public class Standard extends DataEvaluate {
         setPoint();
     }
 
-    public boolean compare(Standard otherStandard) {
-        return this.getId() == otherStandard.getId();
-    }
-
     protected void setPoint() {
-        int sum = 0, count = 0;
+        double sum = 0, count = 0;
         for (Criterion criterion : listCriteria) {
+            criterion.setPoint();
             sum += criterion.getPoint();
             count += (criterion.getPoint() == 0) ? 0 : 1;
         }
 
-        this.point = (double) sum / (double) count;
+        if(count == 0) count++;
+        this.point = sum / count;
     }
 }

@@ -4,7 +4,7 @@ public abstract class DataEvaluate {
 
     private int id;
     private String content;
-    private int weight;
+    protected double weight;
     protected double point;
 
     public DataEvaluate() {
@@ -15,10 +15,6 @@ public abstract class DataEvaluate {
         this.id = id;
         this.content = content;
         this.weight = weight;
-    }
-
-    public int getWeight() {
-        return weight;
     }
 
     public void setWeight(int weight) {

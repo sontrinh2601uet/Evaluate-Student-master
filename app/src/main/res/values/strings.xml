@@ -8,6 +8,7 @@
     <string name="show_pwd">Hiện mật khẩu</string>
     <string name="hide_pwd">Ẩn mật khẩu</string>
     <string name="back">Trở về</string>
+    <string name="history">Lịch sử\nđánh giá</string>
     <string name="save">Lưu</string>
     <string name="scan_qr_code">Quét mã QR</string>
     <string name="log_out">Đăng xuất</string>
@@ -28,9 +29,8 @@
     <string name="return_and_save_evaluate_no">Hủy đánh giá</string>
     <string name="return_and_save_evaluate_cancel">Quay lại đánh giá</string>
 
-    <string name="rating_type_1">Yếu</string>
-    <string name="rating_type_2">Kém</string>
-    <string name="rating_type_3">Trung bình</string>
-    <string name="rating_type_4">Khá</string>
-    <string name="rating_type_5">Tốt</string>
+    <string name="after_save_evaluate_mess">Đánh giá đã được lưu, bạn muốn tiếp tục đánh giá hay quay lại trang quét mã?</string>
+    <string name="after_save_evaluate_title">Lưu thành công</string>
+    <string name="after_save_evaluate_continue">Tiếp tục đánh giá</string>
+    <string name="after_save_evaluate_back">Quay lại trang quét mã</string>
 </resources>

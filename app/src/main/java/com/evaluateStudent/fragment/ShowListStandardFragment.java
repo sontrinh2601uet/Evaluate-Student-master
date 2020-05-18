@@ -29,7 +29,9 @@ public class ShowListStandardFragment extends Fragment {
         SharedPreferences pref = getActivity().getSharedPreferences("MyPref", 0);
         int typeUser = pref.getInt("type", -1);
 
-        ConnectToData.getListStandard(typeUser);
+        if(listStandard == null) {
+            ConnectToData.getListStandard(typeUser);
+        }
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerview_id);
         RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(getActivity(), listStandard, getActivity().getSupportFragmentManager());

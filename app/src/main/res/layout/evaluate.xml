@@ -158,81 +158,33 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <LinearLayout
-
+        <Button
+            android:id="@+id/back"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@color/colorPrimary">
+            android:text="@string/back"
+            android:enabled="false" />
 
-            <LinearLayout
-                android:id="@+id/back_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center_horizontal|center_vertical"
-                android:tag="back"
-                android:visibility="invisible">
+        <Button
+            android:id="@+id/history"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/history" />
 
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="5dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:src="@drawable/back_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/back"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <Button
+            android:id="@+id/save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@color/colorPrimary">
-
-            <LinearLayout
-                android:id="@+id/save_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center_horizontal|center_vertical"
-                android:tag="save">
-
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginEnd="5dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:src="@drawable/save_all" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/save"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
-
+            android:text="@string/save" />
     </LinearLayout>
 
     <FrameLayout

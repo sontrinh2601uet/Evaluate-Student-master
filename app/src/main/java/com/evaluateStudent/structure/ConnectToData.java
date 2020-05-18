@@ -1,6 +1,5 @@
 package com.evaluateStudent.structure;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
@@ -24,8 +23,8 @@ import java.util.Scanner;
 
 public class ConnectToData {
 
-    private static File STORAGE_DATA;
     public static ArrayList<Standard> listStandard;
+    private static File STORAGE_DATA;
 
     public static void createData(Context context) {
         String defaultData;
@@ -34,7 +33,7 @@ public class ConnectToData {
         STORAGE_DATA = new File(context.getExternalFilesDir(null), "EvaluateStudent");
 
         if (!STORAGE_DATA.isDirectory()) {
-            STORAGE_DATA.mkdir();
+            STORAGE_DATA.mkdirs();
         }
         boolean a = STORAGE_DATA.exists();
         checkExist = new File(STORAGE_DATA, "user");
@@ -157,43 +156,54 @@ public class ConnectToData {
             action.setWeight(actionObj.getInt("weight"));
 
             listActions.add(action);
-            System.out.println(action.toString());
         }
 
         return listActions;
     }
 
-    public static boolean saveEvaluate(String studentId, Activity activity) {
-        SharedPreferences pref = activity.getSharedPreferences("MyPref", 0);
+    public static boolean saveEvaluate(String studentId, SharedPreferences pref) {
         SharedPreferences.Editor editor = pref.edit();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-        String currentTime = sdf.format(new Date());
-        File saveEvaluate = createEvaluateFolder(currentTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        File saveEvaluate = new File(STORAGE_DATA, "evaluateHistory.txt");
 
         int indexId = pref.getInt("indexId", 0);
+        int hasEvaluateStd = 0;
+        double point = 0;
+        StringBuilder dataEvaluate = new StringBuilder();
         try {
-            FileOutputStream fos = new FileOutputStream(saveEvaluate);
+            FileOutputStream fos = new FileOutputStream(saveEvaluate, true);
 
-            fos.write(("user: " + pref.getString("email", "") + "\n").getBytes());
-            fos.write(("type_of_user: " + pref.getInt("type", -1) + "\n").getBytes());
-            fos.write(("student_id_in_evaluate: " + studentId + "\n").getBytes());
-            fos.write(("time: " + currentTime + "\n").getBytes());
+            dataEvaluate.append(sdf.format(new Date())).append(",");
+            dataEvaluate.append(pref.getString("email", "")).append(",");
+            dataEvaluate.append(studentId).append(",");
 
+            StringBuilder listActionEvaluated = new StringBuilder();
             for (Standard standard : listStandard) {
+                standard.setPoint();
+                point += standard.point;
+                hasEvaluateStd += (standard.point == 0) ? 0 : 1;
+
                 for (Criterion criterion : standard.getListCriteria()) {
                     for (Action action : criterion.getListAction()) {
-                        if(action.getRateQuality() != 0) {
-                            String line = "id:" + indexId + ", actionId:" + action.getId() + ",rating:" + action.getRateQuality() + "\n";
-                            fos.write(line.getBytes());
+                        if (action.getRateQuality() != 0) {
+
                         }
-                        indexId++;
                     }
                 }
             }
 
-            editor.putInt("indexId", indexId);
+            if(hasEvaluateStd == 0) {
+                fos.close();
+                return false;
+            }
 
+            dataEvaluate.append(String.format("%.1f", point / hasEvaluateStd)).append(",");
+            dataEvaluate.append(listActionEvaluated.toString());
+            fos.write(dataEvaluate.toString().getBytes());
+
+            editor.putInt("indexId", indexId + 1);
             editor.commit();
+            clearEvaluate();
             fos.close();
         } catch (IOException e) {
             return false;
@@ -202,16 +212,7 @@ public class ConnectToData {
         return true;
     }
 
-    private static File createEvaluateFolder(String date) {
-        File dir = new File(STORAGE_DATA, "evaluate");
-        if (!dir.isDirectory()) {
-            dir.mkdir();
-        }
-
-        return new File(dir, date + ".txt");
-    }
-
-    public static void clearEvaluate() {
+    private static void clearEvaluate() {
         if (listStandard != null) {
             for (Standard standard : listStandard) {
                 for (Criterion criterion : standard.getListCriteria()) {

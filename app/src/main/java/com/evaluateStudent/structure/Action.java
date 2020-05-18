@@ -3,6 +3,7 @@ package com.evaluateStudent.structure;
 public class Action extends DataEvaluate {
 
     private int rateQuality = 0;
+    private boolean positive = true;
 
     public Action() {
         super();
@@ -18,6 +19,7 @@ public class Action extends DataEvaluate {
 
     public void setRateQuality(int rateQuality) {
         this.rateQuality = rateQuality;
+        setPoint();
     }
 
     public void resetRateQuality() {
@@ -25,5 +27,7 @@ public class Action extends DataEvaluate {
     }
 
     @Override
-    protected void setPoint() {}
+    protected void setPoint() {
+        this.point = this.weight * rateQuality;
+    }
 }
