@@ -51,10 +51,6 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
         } else {
             backToScan();
         }
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_container, ShowListStandardFragment.createInstance(), "list").commit();
     }
 
     private boolean showInfo(JSONObject studentData) {
@@ -92,7 +88,7 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
                 });
 
         AlertDialog alert = builder.create();
-        //alert.show();
+        alert.show();
 
     }
 
@@ -185,6 +181,6 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
                         backToScanActivity();
                     }
                 });
-        //builder.show();
+        builder.show();
     }
 }
