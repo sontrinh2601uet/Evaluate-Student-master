@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,6 +54,10 @@ public class ConnectToData {
             defaultData = context.getString(R.string.def_data);
             writeDataIntoFile(checkExist.getAbsolutePath(), defaultData);
         }
+    }
+
+    public static String getDataFile() {
+        return readDataFromFile("evaluateHistory.txt");
     }
 
     public static int getAuthenticationAccess(Context context, String name, String password) {
@@ -111,7 +116,7 @@ public class ConnectToData {
 
                 standard.setId(standardObj.getInt("standardId"));
                 standard.setContent(standardObj.getString("name"));
-                standard.setWeight(standardObj.getInt("weight"));
+                standard.setWeight(standardObj.getDouble("weight"));
                 standard.setType(standardObj.getInt("type"));
                 standard.setListCriteria(getListCriteria(standardObj.getJSONObject("listCriterion")));
 
@@ -133,7 +138,7 @@ public class ConnectToData {
 
             criteria.setId(criteriaObj.getInt("criterionId"));
             criteria.setContent(criteriaObj.getString("name"));
-            criteria.setWeight(criteriaObj.getInt("weight"));
+            criteria.setWeight(criteriaObj.getDouble("weight"));
             criteria.setListAction(getListActions(criteriaObj.getJSONObject("listAction")));
 
             listCriteria.add(criteria);
@@ -153,7 +158,7 @@ public class ConnectToData {
 
             action.setId(actionObj.getInt("actionId"));
             action.setContent(actionObj.getString("name"));
-            action.setWeight(actionObj.getInt("weight"));
+            action.setWeight(actionObj.getDouble("weight"));
 
             listActions.add(action);
         }
@@ -183,12 +188,16 @@ public class ConnectToData {
                 point += standard.point;
                 hasEvaluateStd += (standard.point == 0) ? 0 : 1;
 
-                for (Criterion criterion : standard.getListCriteria()) {
-                    for (Action action : criterion.getListAction()) {
-                        if (action.getRateQuality() != 0) {
+//                for (Criterion criterion : standard.getListCriteria()) {
+//                    for (Action action : criterion.getListAction()) {
+//                        if (action.getRateQuality() != 0) {
+//
+//                        }
+//                    }
+//                }
 
-                        }
-                    }
+                if (standard.point != 0.0) {
+                    listActionEvaluated.append("$").append(standard.getId()).append("~").append(new DecimalFormat("#.##").format(standard.point));
                 }
             }
 
@@ -198,7 +207,7 @@ public class ConnectToData {
             }
 
             dataEvaluate.append(String.format("%.1f", point / hasEvaluateStd)).append(",");
-            dataEvaluate.append(listActionEvaluated.toString());
+            dataEvaluate.append(listActionEvaluated.toString()).append(";\n");
             fos.write(dataEvaluate.toString().getBytes());
 
             editor.putInt("indexId", indexId + 1);
@@ -235,18 +244,32 @@ public class ConnectToData {
     }
 
     private static String readDataFromFile(String typeData) {
-        String ret = null;
+        StringBuilder ret = new StringBuilder();
 
         try {
             File readFile = new File(STORAGE_DATA, typeData);
             Scanner sc = new Scanner(readFile, StandardCharsets.UTF_8.name());
 
-            ret = sc.nextLine();
+
+            while(sc.hasNext()) {
+                ret.append(sc.nextLine());
+            }
             sc.close();
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
 
-        return ret;
+        return ret.toString();
+    }
+
+    public static Standard getStandardById(int id) {
+        for (Standard standard : listStandard) {
+            if(standard.getId() == id) {
+                return standard;
+            }
+        }
+
+        return null;
     }
 }

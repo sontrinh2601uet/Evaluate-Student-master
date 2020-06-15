@@ -33,4 +33,8 @@
     <string name="after_save_evaluate_title">Lưu thành công</string>
     <string name="after_save_evaluate_continue">Tiếp tục đánh giá</string>
     <string name="after_save_evaluate_back">Quay lại trang quét mã</string>
+
+    <string name="evaluate_history_title">Lịch sử đánh giá học sinh</string>
+    <string name="evaluate_history_sum_point">Tổng điểm đánh giá hiện tại: %1$s</string>
+    <string name="evaluate_history_sum_standard">Điểm đánh giá hiện tại: %1$s</string>
 </resources>

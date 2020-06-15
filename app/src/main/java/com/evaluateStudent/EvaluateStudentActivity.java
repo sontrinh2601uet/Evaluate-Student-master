@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.evaluateStudent.fragment.EvaluateHistoryFragment;
 import com.evaluateStudent.fragment.ShowListStandardFragment;
 import com.evaluateStudent.structure.ConnectToData;
 
@@ -57,7 +58,7 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
         try {
             ((TextView) findViewById(R.id.id_student)).setText(studentData.getString("studentId"));
             ((TextView) findViewById(R.id.name_student)).setText(studentData.getString("name"));
-            ((TextView) findViewById(R.id.dob_student)).setText(studentData.getString("bod"));
+            ((TextView) findViewById(R.id.dob_student)).setText(studentData.getString("dob"));
             ((TextView) findViewById(R.id.class_student)).setText(studentData.getString("class"));
 
             studentId = studentData.getString("studentId");
@@ -136,7 +137,7 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onBackPressed() {
-        if (backButton.getVisibility() == View.VISIBLE) {
+        if (backButton.isEnabled()) {
             getSupportFragmentManager().popBackStack();
         } else {
             commitBackToScan();
@@ -154,6 +155,13 @@ public class EvaluateStudentActivity extends AppCompatActivity implements View.O
                 getSupportFragmentManager().popBackStack();
                 break;
             case R.id.history:
+                backButton.setEnabled(true);
+                String studentId = getIntent().getStringExtra("studentId");
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, EvaluateHistoryFragment.createInstance(studentId), "detail")
+                        .addToBackStack("list")
+                        .commit();
                 break;
         }
     }
