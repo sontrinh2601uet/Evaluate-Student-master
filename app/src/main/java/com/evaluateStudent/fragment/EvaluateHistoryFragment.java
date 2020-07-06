@@ -72,7 +72,7 @@ public class EvaluateHistoryFragment extends Fragment {
         data = temp.split(";");
 
         for (String datum : data) {
-            String[] fracture = datum.substring(0, datum.length() - 1).split(",");
+            String[] fracture = datum.split("%");
             String[] listStandardPoint = fracture[4].split("\\$");
 
 
@@ -81,10 +81,10 @@ public class EvaluateHistoryFragment extends Fragment {
                 String[] pair = standard.split("~");
 
                 if (!evaluateHistory.containsKey(pair[0])) {
-                    evaluateHistory.put(pair[0].replace("$", ""), new ArrayList<Pair>());
+                    evaluateHistory.put(pair[0], new ArrayList<Pair>());
                 }
 
-               evaluateHistory.get(pair[0].replace("$", "")).add(new Pair(fracture[0], Float.valueOf(pair[1])));
+               evaluateHistory.get(pair[0]).add(new Pair(fracture[0], Double.valueOf(pair[1])));
             }
         }
 
@@ -107,7 +107,7 @@ public class EvaluateHistoryFragment extends Fragment {
             chartView = (LinearLayout) inflater.inflate(R.layout.chart_layout, null);
             ((TextView) chartView.findViewById(R.id.standard_content)).setText(standard.getContent());
             ((TextView) chartView.findViewById(R.id.point_of_standard)).setText(getString(R.string.evaluate_history_sum_standard, calculatePoint(dataEachChart.getValue())));
-            sumPoint += Double.valueOf(calculatePoint(dataEachChart.getValue()));
+            sumPoint += Double.parseDouble(calculatePoint(dataEachChart.getValue()));
             LineChart lineChart = chartView.findViewById(R.id.standard_chart);
 
             setDataForChart(lineChart, dataEachChart.getValue());
@@ -158,16 +158,16 @@ public class EvaluateHistoryFragment extends Fragment {
         }
 
         point = point / (double) data.size();
-        return new DecimalFormat("#.##").format(point);
+        return String.valueOf(point).substring(0, 4);
     }
 
     private class Pair implements Comparable<Pair>{
         private String date;
         private Float point;
 
-        Pair (String date, Float point) {
+        Pair (String date, Double point) {
             this.date = date;
-            this.point = point;
+            this.point = point.floatValue();
         }
 
         public String getDate() {

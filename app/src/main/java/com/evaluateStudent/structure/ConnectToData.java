@@ -178,9 +178,9 @@ public class ConnectToData {
         try {
             FileOutputStream fos = new FileOutputStream(saveEvaluate, true);
 
-            dataEvaluate.append(sdf.format(new Date())).append(",");
-            dataEvaluate.append(pref.getString("email", "")).append(",");
-            dataEvaluate.append(studentId).append(",");
+            dataEvaluate.append(sdf.format(new Date())).append("%");
+            dataEvaluate.append(pref.getString("email", "")).append("%");
+            dataEvaluate.append(studentId).append("%");
 
             StringBuilder listActionEvaluated = new StringBuilder();
             for (Standard standard : listStandard) {
@@ -197,7 +197,10 @@ public class ConnectToData {
 //                }
 
                 if (standard.point != 0.0) {
-                    listActionEvaluated.append("$").append(standard.getId()).append("~").append(new DecimalFormat("#.##").format(standard.point));
+                    int cutLength = Math.min(String.valueOf(standard.point).length(), 4);
+
+                    listActionEvaluated.append("$").append(standard.getId()).append("~")
+                            .append(String.valueOf(standard.point).substring(0, 4));
                 }
             }
 
@@ -206,7 +209,7 @@ public class ConnectToData {
                 return false;
             }
 
-            dataEvaluate.append(String.format("%.1f", point / hasEvaluateStd)).append(",");
+            dataEvaluate.append(String.format("%.1f", point / hasEvaluateStd)).append("%");
             dataEvaluate.append(listActionEvaluated.toString()).append(";\n");
             fos.write(dataEvaluate.toString().getBytes());
 

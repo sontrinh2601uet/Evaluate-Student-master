@@ -72,8 +72,7 @@ public class LoginFragment extends Fragment implements OnClickListener {
         @SuppressLint("ResourceType")
         XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
         try {
-            ColorStateList csl = ColorStateList.createFromXml(getResources(),
-                    xrp);
+            ColorStateList csl = ColorStateList.createFromXml(getResources(), xrp);
 
             show_hide_password.setTextColor(csl);
         } catch (Exception e) {

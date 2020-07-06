@@ -10,7 +10,6 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-import com.evaluateStudent.EvaluateStudentActivity;
 import com.evaluateStudent.R;
 import com.evaluateStudent.ScanQRcodeActivity;
 
